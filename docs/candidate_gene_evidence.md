@@ -38,7 +38,11 @@ A regional analysis using Ensembl GRCh37 gene annotations identified 12 gene rec
 - Previous kidney-related genetic studies have reported associations involving the GATM-SPATA5L1 region.
 - A study integrating kidney expression data reported evidence supporting SPATA5L1 expression as a potential mediator of an eGFR association.
 - The mechanism linking SPATA5L1 to kidney function remains incompletely understood.
-
+- A kidney-expression analysis reported colocalization evidence for SPATA5L1 and an eGFR association signal at this broader locus.
+- A 2023 transcriptome- and proteome-wide study reported no association of GATM and SPATA5L1 with cystatin C-based eGFR or blood urea nitrogen in its analyses, supporting a possible creatinine-metabolism explanation.
+References:
+- https://www.nature.com/articles/s41467-019-11704-w
+- https://pmc.ncbi.nlm.nih.gov/articles/PMC10291807/
 **Interpretation and limitations**
 - Evidence from other variants and studies cannot automatically be attributed to rs1145077.
 - Fine-mapping and variant-specific regulatory evidence are needed to assess this candidate.
