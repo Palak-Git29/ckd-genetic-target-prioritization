@@ -1,66 +1,138 @@
-
 from pathlib import Path
 
 import pandas as pd
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+VARIANT_FILE = (
+    PROJECT_ROOT / "data" / "processed" / "significant_variants.csv"
+)
+GENE_FILE = PROJECT_ROOT / "data" / "raw" / "ensembl_grch37_genes.tsv"
 OUTPUT_DIR = PROJECT_ROOT / "data" / "processed"
 
-# Coordinates are GRCh37, matching the GWAS summary statistics.
-variants = pd.DataFrame(
-    [
-        ("rs1145077", 45683795, 6.85e-142),
-        ("rs1153855", 45660758, 7.64e-142),
-        ("rs1145080", 45681338, 7.75e-142),
-        ("rs1145076", 45684508, 8.04e-142),
-        ("rs1145084", 45675440, 9.93e-142),
-        ("rs2467862", 45643843, 2.61e-141),
-        ("rs1049518", 45653367, 2.80e-141),
-        ("rs2486274", 45666228, 3.27e-141),
-        ("rs1426932", 45687256, 3.40e-141),
-        ("rs1153860", 45636584, 3.41e-141),
-    ],
-    columns=["RSID", "position", "p_value"],
-)
+STANDARD_CHROMOSOMES = [str(i) for i in range(1, 23)] + ["X", "Y"]
+TOP_N = 10
 
-# Preliminary gene annotations retrieved from Ensembl.
-genes = pd.DataFrame(
-    [
-        ("GATM", 45653322, 45694525),
-        ("SPATA5L1", 45694529, 45713617),
-        ("C15orf48", 45722727, 45740959),
-    ],
-    columns=["gene", "start", "end"],
-)
 
-results = []
+def main():
+    if not VARIANT_FILE.exists():
+        raise FileNotFoundError(f"Variant file not found: {VARIANT_FILE}")
+    if not GENE_FILE.exists():
+        raise FileNotFoundError(f"Gene annotation not found: {GENE_FILE}")
 
-for _, variant in variants.iterrows():
-    overlapping = genes.loc[
-        (genes["start"] <= variant["position"])
-        & (genes["end"] >= variant["position"]),
-        "gene",
-    ].tolist()
+    # Load the strongest genome-wide significant variants.
+    variants = pd.read_csv(
+        VARIANT_FILE,
+        usecols=["Chr", "Pos_b37", "RSID", "P-value"],
+    )
 
-    results.append(
-        {
-            "RSID": variant["RSID"],
-            "chromosome": 15,
-            "position_grch37": variant["position"],
-            "p_value": variant["p_value"],
-            "overlapping_genes": ";".join(overlapping),
+    variants["Chr"] = pd.to_numeric(variants["Chr"], errors="coerce")
+    variants["Pos_b37"] = pd.to_numeric(
+        variants["Pos_b37"], errors="coerce"
+    )
+    variants["P-value"] = pd.to_numeric(
+        variants["P-value"], errors="coerce"
+    )
+
+    variants = variants.dropna(
+        subset=["Chr", "Pos_b37", "RSID", "P-value"]
+    )
+    variants = variants[
+        variants["Chr"].between(1, 22)
+        & (variants["Chr"] % 1 == 0)
+        & (variants["Pos_b37"] > 0)
+        & (variants["P-value"] > 0)
+        & (variants["P-value"] <= 1)
+    ].copy()
+
+    variants["Chr"] = variants["Chr"].astype(int).astype(str)
+    variants["Pos_b37"] = variants["Pos_b37"].astype(int)
+
+    top_variants = (
+        variants.sort_values("P-value")
+        .drop_duplicates(subset=["RSID"])
+        .head(TOP_N)
+        .copy()
+    )
+
+    # Load Ensembl GRCh37 gene annotations.
+    genes = pd.read_csv(GENE_FILE, sep="\t")
+    genes = genes.rename(
+        columns={
+            "Gene stable ID": "gene_id",
+            "Gene name": "gene_name",
+            "Chromosome/scaffold name": "chromosome",
+            "Gene start (bp)": "start",
+            "Gene end (bp)": "end",
+            "Gene type": "gene_biotype",
         }
     )
 
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    genes["chromosome"] = genes["chromosome"].astype(str)
+    genes["start"] = pd.to_numeric(genes["start"], errors="coerce")
+    genes["end"] = pd.to_numeric(genes["end"], errors="coerce")
 
-output_file = OUTPUT_DIR / "top_variant_gene_overlap.csv"
-pd.DataFrame(results).to_csv(output_file, index=False)
+    genes = genes[
+        genes["chromosome"].isin(STANDARD_CHROMOSOMES)
+    ].dropna(subset=["start", "end"]).copy()
 
-print(pd.DataFrame(results).to_string(index=False))
-print(f"\nSaved results to: {output_file}")
-print(
-    "\nNote: this is a preliminary overlap check using only "
-    "three selected genes, not a complete variant-to-gene analysis."
-)
+    genes["start"] = genes["start"].astype(int)
+    genes["end"] = genes["end"].astype(int)
+
+    # Match each variant to every gene whose interval contains its position.
+    results = []
+
+    for _, variant in top_variants.iterrows():
+        matching_genes = genes[
+            (genes["chromosome"] == variant["Chr"])
+            & (genes["start"] <= variant["Pos_b37"])
+            & (genes["end"] >= variant["Pos_b37"])
+        ]
+
+        if matching_genes.empty:
+            results.append(
+                {
+                    "RSID": variant["RSID"],
+                    "chromosome": variant["Chr"],
+                    "position_grch37": variant["Pos_b37"],
+                    "p_value": variant["P-value"],
+                    "gene_id": "",
+                    "gene_name": "",
+                    "gene_biotype": "",
+                }
+            )
+        else:
+            for _, gene in matching_genes.iterrows():
+                results.append(
+                    {
+                        "RSID": variant["RSID"],
+                        "chromosome": variant["Chr"],
+                        "position_grch37": variant["Pos_b37"],
+                        "p_value": variant["P-value"],
+                        "gene_id": gene["gene_id"],
+                        "gene_name": gene["gene_name"],
+                        "gene_biotype": gene["gene_biotype"],
+                    }
+                )
+
+    results_df = pd.DataFrame(results)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    output_file = OUTPUT_DIR / "top_variant_gene_overlap.csv"
+    results_df.to_csv(output_file, index=False)
+
+    print(f"Top variants analysed: {len(top_variants)}")
+    print(f"Standard-chromosome gene records loaded: {len(genes)}")
+    print(f"Variant–gene overlap rows: {len(results_df)}")
+    print(f"Variants with at least one overlapping gene: "
+          f"{results_df.loc[results_df['gene_id'] != '', 'RSID'].nunique()}")
+    print(f"Saved results to: {output_file}")
+    print(
+        "\nCaution: positional overlap does not establish a causal gene. "
+        "Variants without overlap may still affect genes through regulatory "
+        "mechanisms or other pathways."
+    )
+
+
+if __name__ == "__main__":
+    main()
