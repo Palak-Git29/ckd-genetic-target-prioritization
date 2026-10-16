@@ -49,6 +49,23 @@ The analysis uses the creatinine-derived eGFR GWAS summary statistics from Wuttk
 5. **Regional analysis:** Extracted 339 variants within ±100 kb of lead variant rs1145077 on chromosome 15.
 6. **Candidate-gene review:** Examined nearby genes and documented the evidence and limitations for prioritizing candidates.
 
+### Visualizations
+
+#### Genome-wide association signals
+![eGFR GWAS Manhattan plot](results/figures/egfr_gwas_manhattan.png)
+
+The Manhattan plot summarizes genome-wide association signals for creatinine-derived eGFR. The significance threshold and association patterns should be interpreted in the context of the source study and phenotype limitations.
+
+#### Significant variant records by chromosome
+![Significant variant rows by chromosome](results/figures/significant_rows_by_chromosome.png)
+
+This plot shows the chromosome-level distribution of significant variant records. Variant-row counts do not necessarily represent independent genetic signals.
+
+#### Candidate-gene positional prioritization
+![Candidate-gene positional-priority scores](results/figures/candidate_gene_positional_scores.png)
+
+This heuristic ranks nearby genes using the project's positional evidence, including overlap with the lead variant and distance. GATM receives the highest positional score because the lead variant overlaps its annotated gene boundaries. The score is not a probability of causality and does not establish a causal gene.
+
 ### Regional Association Finding
 ![Regional GWAS association plot](results/figures/lead_region_association.png)
 The lead variant identified in the selected region is **rs1145077**, at chromosome 15 position 45,683,795 (GRCh37), with P = 6.85 × 10⁻¹⁴².
