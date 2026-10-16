@@ -152,7 +152,20 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-### 4. Run validation tests
+### 4. Run the complete pipeline
+
+From the repository root, run:
+
+```bash
+python run_pipeline.py
+
+```
+
+The runner executes the analysis scripts in sequence, generates processed datasets and figures, validates the candidate-gene table, and stops if a step fails.
+
+Required raw GWAS summary statistics and gene annotation files must be available in `data/raw/`. Raw input files are excluded from Git.
+
+### 5. Run validation tests
 
 ```bash
 python -m pytest -v
