@@ -1,0 +1,6 @@
+
+gene,positional_evidence,genetic_evidence,functional_evidence,phenotype_interpretation,evidence_status,key_limitation
+GATM,"Lead variant overlaps gene body","Not assessed","Not assessed","Creatine production may affect creatinine-based eGFR","Strong positional evidence; further validation needed","Overlap does not prove causality; creatinine metabolism may influence the signal"
+SPATA5L1,"Approximately 10734 bp from lead variant","Not assessed","Prior regional kidney-expression evidence described in project review","Creatinine-based eGFR findings may not indicate kidney filtration alone","Follow-up candidate","Regional evidence does not establish the causal variant or gene"
+C15orf48,"Approximately 38932 bp from lead variant","Not assessed","Not assessed","Specific phenotype relevance not established in this project","Provisional","Insufficient independent genetic or functional evidence assessed"
+SLC30A4,"Approximately 88014 bp from lead variant","Not assessed","Not assessed","Specific phenotype relevance not established in this project","Provisional","Insufficient evidence connecting this gene to the association"
