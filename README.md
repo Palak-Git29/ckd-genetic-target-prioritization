@@ -69,3 +69,29 @@ Python, pandas, NumPy, Matplotlib, Git, Linux, and Ubuntu on Windows Subsystem f
 **Completed:** Initial GWAS processing, significance filtering, chromosome-level visualization, variant-to-gene overlap analysis, regional extraction, and preliminary candidate-gene evidence review.
 
 **Planned:** Formal fine-mapping, integration of functional evidence, and improved candidate-gene prioritization.
+
+
+## Candidate-gene evidence and data validation
+
+The project includes two structured reports for the chromosome 15 eGFR association region:
+
+- `reports/candidate_gene_prioritization.csv` summarizes four candidate genes, their distances from the lead variant, current priorities, and key limitations.
+- `reports/variant_gene_evidence.csv` separates positional evidence from genetic and functional evidence, explicitly marking evidence that has not yet been assessed.
+
+GATM has the strongest positional evidence because the lead variant rs1145077 falls within its annotated gene boundaries. SPATA5L1 is a follow-up candidate based on evidence described in the literature review. These assessments do not establish a causal gene.
+
+### Data validation and tests
+
+The validation script checks the candidate-gene prioritization table:
+
+```bash
+python src/validate_candidate_genes.py
+```
+
+Run the automated tests with:
+
+```bash
+python -m pytest -v
+```
+
+The test suite checks gene-name uniqueness, non-negative distances, documented evidence fields, expected gene coverage, and completeness of the variant-to-gene evidence table.
