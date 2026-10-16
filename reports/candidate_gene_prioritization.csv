@@ -1,0 +1,6 @@
+
+gene, distance_from_lead_bp, lead_variant_overlaps_gene, evidence_summary, current_priority, key_limitation
+GATM,0,yes,"Lead variant lies within gene boundaries; involved in creatine production; creatinine metabolism may influence creatinine-based eGFR","High positional priority","Overlap does not establish causality; signal may reflect creatinine metabolism"
+SPATA5L1,10734,no,"Nearby gene; previous kidney-expression and transcriptome/proteome-wide studies provide evidence for the broader locus","Follow-up priority","Regional evidence does not prove rs1145077 causality or the precise mechanism"
+C15orf48,38932,no,"Protein-coding gene within the selected region","Provisional","Insufficient independent genetic or functional evidence assessed so far"
+SLC30A4,88014,no,"Protein-coding gene within the selected region","Provisional","Insufficient evidence connecting this gene to the specific association"
