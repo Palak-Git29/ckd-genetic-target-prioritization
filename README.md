@@ -22,7 +22,24 @@ The project analyzes public genome-wide association study (GWAS) summary statist
 - Data type: GWAS summary statistics
 
 **Important:** Creatinine-derived eGFR associations may reflect creatinine metabolism as well as kidney filtration. These associations are not equivalent to associations with a clinical CKD diagnosis.
+### Downloading the GWAS data
 
+The analysis uses the creatinine-derived eGFR GWAS summary statistics from Wuttke et al. (2019).
+
+1. Create the raw data directory if it does not exist:
+
+   ```bash
+   mkdir -p data/raw
+   ```
+
+2. Download the source file into `data/raw/`:
+
+   ```bash
+   wget -O data/raw/ckdgen_2019_egfr_transancestry.txt.gz "https://CKDGen.imbi.uni-freiburg.de/files/Wuttke2019/20171016_MW_eGFR_overall_ALL_nstud61.dbgap.txt.gz"
+   ```
+
+3. Keep the downloaded file compressed. The analysis script reads the `.gz` file directly.
+**Note:** Raw data files are excluded from Git by `.gitignore`. Download the data locally before running the analysis scripts.
 ## Workflow and Current Results
 
 1. **GWAS summary statistics:** Processed 8,276,454 variant records and identified 26,442 variants meeting the significance threshold of P < 5 × 10⁻⁸.
@@ -33,7 +50,7 @@ The project analyzes public genome-wide association study (GWAS) summary statist
 6. **Candidate-gene review:** Examined nearby genes and documented the evidence and limitations for prioritizing candidates.
 
 ### Regional Association Finding
-
+![Regional GWAS association plot](results/figures/lead_region_association.png)
 The lead variant identified in the selected region is **rs1145077**, at chromosome 15 position 45,683,795 (GRCh37), with P = 6.85 × 10⁻¹⁴².
 
 The variant overlaps the annotated boundaries of **GATM**, making it a strong positional candidate for follow-up. **SPATA5L1** is another candidate for further investigation based on its proximity and previously reported region-level evidence.
@@ -101,7 +118,7 @@ The test suite checks gene-name uniqueness, non-negative distances, documented e
 ### 1. Clone the repository
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+git clone https://github.com/Palak-Git29/ckd-genetic-target-prioritization.git
 cd ckd-genetic-target-prioritization
 ```
 
