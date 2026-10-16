@@ -34,16 +34,31 @@ def main():
         variants["P-value"], errors="coerce"
     )
 
-    variants = variants.dropna(
-        subset=["Chr", "Pos_b37", "RSID", "P-value"]
-    )
-    variants = variants[
+    # Quality control: validate variant IDs and genomic coordinates.
+    rows_before_qc = len(variants)
+    variants["RSID"] = variants["RSID"].astype("string").str.strip()
+
+    valid_rows = (
         variants["Chr"].between(1, 22)
         & (variants["Chr"] % 1 == 0)
         & (variants["Pos_b37"] > 0)
+        & (variants["Pos_b37"] % 1 == 0)
         & (variants["P-value"] > 0)
         & (variants["P-value"] <= 1)
-    ].copy()
+        & variants["RSID"].notna()
+        & variants["RSID"].ne("")
+    )
+
+    variants = variants.loc[valid_rows].copy()
+    rows_after_qc = len(variants)
+
+    print("\nVariant QC")
+    print(f"Rows before QC: {rows_before_qc:,}")
+    print(f"Rows passing QC: {rows_after_qc:,}")
+    print(
+        f"Rows excluded by QC: "
+        f"{rows_before_qc - rows_after_qc:,}"
+    )
 
     variants["Chr"] = variants["Chr"].astype(int).astype(str)
     variants["Pos_b37"] = variants["Pos_b37"].astype(int)
@@ -71,6 +86,28 @@ def main():
     genes["chromosome"] = genes["chromosome"].astype(str)
     genes["start"] = pd.to_numeric(genes["start"], errors="coerce")
     genes["end"] = pd.to_numeric(genes["end"], errors="coerce")
+    # Quality control for gene annotation coordinates.
+    genes_before_qc = len(genes)
+
+    valid_gene_rows = (
+        genes["gene_id"].notna()
+        & genes["gene_id"].astype(str).str.strip().ne("")
+        & genes["start"].notna()
+        & genes["end"].notna()
+        & (genes["start"] > 0)
+        & (genes["end"] > 0)
+        & (genes["start"] <= genes["end"])
+    )
+
+    genes = genes.loc[valid_gene_rows].copy()
+
+    print("\nGene annotation QC")
+    print(f"Records before coordinate QC: {genes_before_qc:,}")
+    print(f"Records passing coordinate QC: {len(genes):,}")
+    print(
+        "Records excluded by coordinate QC: "
+        f"{genes_before_qc - len(genes):,}"
+    )
 
     genes = genes[
         genes["chromosome"].isin(STANDARD_CHROMOSOMES)
