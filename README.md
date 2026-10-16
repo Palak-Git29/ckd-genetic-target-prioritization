@@ -95,3 +95,33 @@ python -m pytest -v
 ```
 
 The test suite checks gene-name uniqueness, non-negative distances, documented evidence fields, expected gene coverage, and completeness of the variant-to-gene evidence table.
+
+## Installation and setup
+
+### 1. Clone the repository
+
+```bash
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+cd ckd-genetic-target-prioritization
+```
+
+### 2. Create and activate a virtual environment
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 4. Run validation tests
+
+```bash
+python -m pytest -v
+```
+
+The tests validate candidate-gene prioritization and variant-to-gene evidence tables.
