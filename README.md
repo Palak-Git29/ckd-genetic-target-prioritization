@@ -100,10 +100,11 @@ Python, pandas, NumPy, Matplotlib, Git, Linux, and Ubuntu on Windows Subsystem f
 
 ## Project Status
 
-**Completed:** Initial GWAS processing, significance filtering, chromosome-level visualization, variant-to-gene overlap analysis, regional extraction, and preliminary candidate-gene evidence review.
+Completed: The 10-step pipeline has run successfully from end to end. It performs GWAS processing, significance filtering, variant and gene-coordinate quality checks, regional analysis, candidate-gene validation and positional scoring, and generates four visualizations. All 9 automated tests pass with python -m pytest -q.
 
-**Planned:** Formal fine-mapping, integration of functional evidence, and improved candidate-gene prioritization.
+Current interpretation: GATM has the strongest positional evidence because the lead variant rs1145077 overlaps its annotated gene boundaries. This is a positional-priority result, not proof of a causal gene or a probability of causality.
 
+Planned: Formal fine-mapping, integration of kidney-relevant functional evidence, eQTL analysis and colocalization, and evaluation using complementary kidney-function phenotypes where suitable data are available.
 
 ## Candidate-gene evidence and data validation
 
