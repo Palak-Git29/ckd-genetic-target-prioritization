@@ -1,102 +1,95 @@
 # Candidate Gene Evidence Review
 
-## Project context
+## Project overview
 
-This project investigates genetic associations with estimated glomerular filtration rate (eGFR) using summary statistics from Wuttke et al. (2019).
+This project looks at genetic variants associated with estimated glomerular filtration rate (eGFR), using the summary statistics published by Wuttke et al. (2019).
 
-The lead variant selected for regional investigation is rs1145077, located on chromosome 15 at GRCh37 position 45,683,795, with a reported P-value of 6.85e-142.
+For a closer look at one associated region, I selected rs1145077 on chromosome 15. The variant is at position 45,683,795 on the GRCh37 reference genome and has a reported P-value of 6.85e-142.
 
-A regional analysis using Ensembl GRCh37 gene annotations identified 12 gene records within a 100 kb window on either side of the lead variant.
+To identify genes near this variant, I compared its position with Ensembl gene annotations for GRCh37. This identified 12 gene records within 100 kb on either side of the variant.
 
-**Important:** This dataset measures creatinine-derived eGFR associations. It is not a direct GWAS of clinical CKD diagnosis, and genetic associations with creatinine-derived eGFR do not always reflect changes in kidney filtration.
+One important point is that the GWAS measures eGFR estimated from serum creatinine. It does not directly test for clinical CKD, and changes in creatinine-based eGFR can sometimes reflect creatinine production or metabolism rather than kidney filtration itself.
 
 ## Candidate genes
 
 ### 1. GATM
 
-**Positional evidence**
-- The lead variant rs1145077 falls within the annotated GATM gene body.
-- GATM is therefore a strong positional candidate for further investigation.
+**Why it stands out**
 
-**Biological evidence**
-- GATM encodes glycine amidinotransferase, an enzyme involved in creatine biosynthesis.
-- Genetic variation affecting creatine and creatinine production can influence serum creatinine and consequently creatinine-derived eGFR.
+The lead variant, rs1145077, falls within the annotated boundaries of GATM, making it the strongest candidate based on physical location.
 
-**Interpretation and limitations**
-- Previous studies have associated this region with eGFR based on serum creatinine.
-- The association may reflect creatinine metabolism rather than impaired kidney filtration.
-- The positional overlap does not establish that rs1145077 is causal or that GATM is the causal gene.
+**What the biology suggests**
 
-**Current assessment:** Strong positional evidence; biological interpretation requires further investigation.
+GATM encodes glycine amidinotransferase, an enzyme involved in creatine production. Creatine breaks down to creatinine, which is measured in blood and used to estimate eGFR. As a result, genetic differences affecting this pathway can influence creatinine-based eGFR without necessarily indicating a change in kidney filtration.
+
+**What remains uncertain**
+
+Previous studies have linked this region to eGFR, but the association could partly reflect creatinine metabolism. The fact that rs1145077 falls inside GATM does not prove that the variant is causal or that GATM explains the entire association.
+
+**Current assessment:** GATM is the leading positional candidate, but its role in this association needs further investigation.
 
 ### 2. SPATA5L1
 
-**Positional evidence**
-- SPATA5L1 is approximately 10.7 kb from the lead variant, outside the annotated GATM gene body.
+**Why it stands out**
 
-**Biological and genetic evidence**
-- Previous kidney-related genetic studies have reported associations involving the GATM-SPATA5L1 region.
-- A study integrating kidney expression data reported evidence supporting SPATA5L1 expression as a potential mediator of an eGFR association.
-- The mechanism linking SPATA5L1 to kidney function remains incompletely understood.
-- A kidney-expression analysis reported colocalization evidence for SPATA5L1 and an eGFR association signal at this broader locus.
-- A 2023 transcriptome- and proteome-wide study reported no association of GATM and SPATA5L1 with cystatin C-based eGFR or blood urea nitrogen in its analyses, supporting a possible creatinine-metabolism explanation.
-References:
-- https://www.nature.com/articles/s41467-019-11704-w
-- https://pmc.ncbi.nlm.nih.gov/articles/PMC10291807/
-**Interpretation and limitations**
-- Evidence from other variants and studies cannot automatically be attributed to rs1145077.
-- Fine-mapping and variant-specific regulatory evidence are needed to assess this candidate.
+SPATA5L1 is located approximately 10.7 kb from the lead variant, just outside the annotated GATM gene body.
 
-**Current assessment:** Important regional candidate requiring further evaluation.
+**What previous studies suggest**
+
+Studies of kidney function have reported associations involving the GATM–SPATA5L1 region. A 2019 study also reported kidney gene-expression evidence supporting SPATA5L1 as a possible mediator of an eGFR association at the broader locus.
+
+A later transcriptome- and proteome-wide study reported that GATM and SPATA5L1 were associated with creatinine-based eGFR, but not with cystatin C-based eGFR or blood urea nitrogen in its analyses. This raises the possibility that the signal partly reflects creatinine biology rather than kidney filtration alone.
+
+These findings concern the broader region and do not establish that rs1145077 is responsible for the association. The precise mechanism remains unclear.
+
+**Current assessment:** SPATA5L1 is worth investigating alongside GATM because previous studies provide additional evidence beyond physical proximity.
 
 ### 3. C15orf48
 
-**Positional evidence**
-- C15orf48 is approximately 38.9 kb from the lead variant.
+**Why it was included**
 
-**Biological evidence**
-- It is annotated as a protein-coding gene in the Ensembl GRCh37 dataset.
+C15orf48 is approximately 38.9 kb from the lead variant and is annotated as a protein-coding gene in the Ensembl GRCh37 dataset.
 
-**Interpretation and limitations**
-- Proximity and protein-coding status alone do not establish a role in kidney function.
-- Independent GWAS, expression, regulatory, and functional evidence must be investigated.
+**What we know so far**
 
-**Current assessment:** Provisional candidate; insufficient evidence assessed so far.
+The current analysis establishes that C15orf48 lies within the selected region. I have not yet assessed enough independent genetic or functional evidence to determine whether it contributes to the eGFR association.
+
+Being nearby and protein-coding is not, on its own, enough to establish a role in kidney function.
+
+**Current assessment:** A provisional candidate that needs more evidence before it can be prioritised.
 
 ### 4. SLC30A4
 
-**Positional evidence**
-- SLC30A4 is approximately 88.0 kb from the lead variant.
+**Why it was included**
 
-**Biological evidence**
-- It is annotated as a protein-coding gene in the regional gene dataset.
+SLC30A4 is approximately 88.0 kb from the lead variant and is annotated as a protein-coding gene in the regional dataset.
 
-**Interpretation and limitations**
-- The current analysis establishes proximity, not a causal relationship with the eGFR association.
-- Additional evidence is required before assigning priority.
+**What we know so far**
 
-**Current assessment:** Provisional candidate; insufficient evidence assessed so far.
+Its location makes it part of the region worth examining, but the current analysis does not establish a link between SLC30A4 and this eGFR association. Additional genetic, expression, or functional evidence would be needed to assess its relevance.
 
-## Current conclusions
+**Current assessment:** A provisional candidate; its role in this association has not yet been established.
 
-1. GATM has the strongest positional evidence because the lead variant falls within its annotated gene body.
-2. SPATA5L1 deserves investigation because published kidney-expression analyses provide additional evidence for this regional candidate.
-3. C15orf48 and SLC30A4 remain provisional candidates based on their location in the selected region.
-4. The lead variant and nearby significant variants may represent a shared linkage disequilibrium signal rather than independent associations.
-5. No causal gene has been established by this regional overlap analysis.
+## What the analysis tells us
 
-## Planned follow-up analyses
+GATM is the strongest candidate based on location because the lead variant falls within its annotated gene body. SPATA5L1 is also worth investigating because previous kidney-expression studies provide additional evidence for the broader region.
 
-- Verify variant identifiers and coordinates against the source GWAS and genome build.
-- Investigate fine-mapping results and credible sets for the associated locus.
-- Examine kidney-tissue eQTL and colocalization evidence.
-- Compare associations across creatinine-based eGFR, cystatin C-based eGFR, blood urea nitrogen, measured GFR, and clinical CKD where suitable data are available.
-- Record evidence sources, limitations, and confidence separately for each candidate.
-- Avoid assigning a causal gene based on proximity alone.
+C15orf48 and SLC30A4 were included because they lie within the selected window, but their relevance to this association remains uncertain.
+
+The next question is whether the nearby variants represent one shared association signal, potentially due to linkage disequilibrium, and which gene or biological mechanism best explains it. The regional overlap analysis alone cannot answer that question, so I have not assigned a causal gene.
+
+## Next steps
+
+- Check the variant identifier, genomic position, and genome build against the original GWAS data.
+- Look for fine-mapping results and credible sets to identify variants more likely to explain the association.
+- Examine kidney-tissue eQTL and colocalization results to see whether the GWAS signal shares a genetic cause with changes in gene expression.
+- Where suitable datasets are available, compare results for creatinine-based eGFR with cystatin C-based eGFR, blood urea nitrogen, measured GFR, and clinical CKD.
+- Keep the evidence, its source, and its limitations documented for each candidate gene.
+- Avoid prioritising a gene solely because it is close to the lead variant.
 
 ## References
 
-1. Wuttke et al. (2019). A catalog of genetic loci associated with kidney function from analyses of a million individuals. Nature Genetics.
+1. Wuttke et al. (2019). A catalog of genetic loci associated with kidney function from analyses of a million individuals. *Nature Genetics*.
    https://doi.org/10.1038/s41588-019-0407-x
 
 2. Köttgen et al. (2009). Multiple Novel Loci Are Associated with Indices of Renal Function and Chronic Kidney Disease.
