@@ -1,55 +1,65 @@
 # CKD Genetic Target Prioritization
 
-## Project Overview
+A bioinformatics project to study genetic variants linked to kidney function and identify genes for further research in chronic kidney disease (CKD).
 
-A reproducible bioinformatics project exploring genetic associations with kidney function and prioritizing candidate genes for further investigation in chronic kidney disease (CKD) research.
+## What I did
 
-The project analyzes public genome-wide association study (GWAS) summary statistics, performs genomic quality checks, visualizes association patterns, and connects variants to nearby genes.
+- Analysed GWAS data related to kidney function.
+- Found variants with significant associations.
+- Studied the region around a lead variant on chromosome 15.
+- Compared variant locations with nearby genes.
+- Ranked candidate genes based on their positions.
+- Created graphs and tables to show the results.
 
-## Research Questions
+## Data
 
-- Which genetic variants are associated with estimated glomerular filtration rate (eGFR)?
-- How can variant-level evidence be connected to candidate genes?
-- Which genes warrant further investigation, and what are the limitations of positional prioritization?
+- Study: Wuttke et al. (2019)
+- DOI: https://doi.org/10.1038/s41588-019-0407-x
+- Trait: Creatinine-derived eGFR
+- Genome build: GRCh37
 
-## Data Source
+The study looks at kidney function, not CKD diagnosis directly.
 
-**Wuttke et al. (2019)** — *A catalog of genetic loci associated with kidney function from analyses of a million individuals.*
+## Main findings
 
-- Publication: https://doi.org/10.1038/s41588-019-0407-x
-- Phenotype: creatinine-derived eGFR
-- Genome assembly: GRCh37
-- Data type: GWAS summary statistics
+- Analysed around 8.27 million variant records.
+- Found 26,442 records with P values below 5 × 10⁻⁸.
+- Studied 339 variants around the lead variant rs1145077.
+- Ranked GATM highest based on its position.
+- Identified SPATA5L1 as another gene for further study.
 
-**Important:** Creatinine-derived eGFR associations may reflect creatinine metabolism as well as kidney filtration. These associations are not equivalent to associations with a clinical CKD diagnosis.
-### Downloading the GWAS data
+These findings show associations and positional evidence. They do not prove which gene causes the effect.
 
-The analysis uses the creatinine-derived eGFR GWAS summary statistics from Wuttke et al. (2019).
+## Results and graphs
 
-1. Create the raw data directory if it does not exist:
+The project generates four graphs:
 
-   ```bash
-   mkdir -p data/raw
-   ```
+- GWAS Manhattan plot: Shows significant associations across the genome.
+- Chromosome plot: Shows the distribution of significant records across chromosomes.
+- Lead region plot: Shows variant associations around rs1145077.
+- Candidate gene plot: Compares positional scores of nearby genes.
 
-2. Download the source file into `data/raw/`:
+Graph files are saved in `results/figures/`.
 
-   ```bash
-   wget -O data/raw/ckdgen_2019_egfr_transancestry.txt.gz "https://CKDGen.imbi.uni-freiburg.de/files/Wuttke2019/20171016_MW_eGFR_overall_ALL_nstud61.dbgap.txt.gz"
-   ```
+Other results, including candidate gene tables and reports, are saved in `reports/` and `docs/`.
 
-3. Keep the downloaded file compressed. The analysis script reads the `.gz` file directly.
-**Note:** Raw data files are excluded from Git by `.gitignore`. Download the data locally before running the analysis scripts.
-## Workflow and Current Results
+## Tools used
 
-1. **GWAS summary statistics:** Processed 8,276,454 variant records and identified 26,442 variants meeting the significance threshold of P < 5 × 10⁻⁸.
-2. **Quality checks:** Validated variant coordinates and gene annotation records during variant-to-gene overlap analysis.
-3. **Visualization:** Generated chromosome-level summaries and a Manhattan plot of significant associations.
-4. **Variant-to-gene mapping:** Compared significant variant positions with annotated gene boundaries.
-5. **Regional analysis:** Extracted 339 variants within ±100 kb of lead variant rs1145077 on chromosome 15.
-6. **Candidate-gene review:** Examined nearby genes and documented the evidence and limitations for prioritizing candidates.
+- Python, pandas and NumPy
+- Matplotlib
+- pytest
+- Git and GitHub
+- Ubuntu on WSL
 
-### Visualizations
+## How to run
+
+Install the required packages:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+## Visualizations
 
 #### Genome-wide association signals
 ![eGFR GWAS Manhattan plot](results/figures/egfr_gwas_manhattan.png)
@@ -97,14 +107,6 @@ Python, pandas, NumPy, Matplotlib, Git, Linux, and Ubuntu on Windows Subsystem f
 - Formal fine-mapping requires appropriate linkage disequilibrium information and statistical analysis.
 - Candidate-gene prioritization should be strengthened with fine-mapping, kidney-relevant expression quantitative trait loci (eQTLs), colocalization, and independent phenotype evidence.
 - Creatinine-derived eGFR findings should be compared with complementary kidney-function phenotypes where suitable data are available.
-
-## Project Status
-
-Completed: The 10-step pipeline has run successfully from end to end. It performs GWAS processing, significance filtering, variant and gene-coordinate quality checks, regional analysis, candidate-gene validation and positional scoring, and generates four visualizations. All 9 automated tests pass with python -m pytest -q.
-
-Current interpretation: GATM has the strongest positional evidence because the lead variant rs1145077 overlaps its annotated gene boundaries. This is a positional-priority result, not proof of a causal gene or a probability of causality.
-
-Planned: Formal fine-mapping, integration of kidney-relevant functional evidence, eQTL analysis and colocalization, and evaluation using complementary kidney-function phenotypes where suitable data are available.
 
 ## Candidate-gene evidence and data validation
 
